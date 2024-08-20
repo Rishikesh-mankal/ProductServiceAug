@@ -1,25 +1,61 @@
 package com.rishi.productservice15aug.controller;
 
+import com.rishi.productservice15aug.builder.ProductMapper;
+import com.rishi.productservice15aug.dto.CreateProductRequestDTO;
+import com.rishi.productservice15aug.dto.FakestoreDTO;
+import com.rishi.productservice15aug.dto.ProductResponseDTO;
 import com.rishi.productservice15aug.model.Product;
 import com.rishi.productservice15aug.service.FakeStoreService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.SQLOutput;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class ProductController {
-    private FakeStoreService svc;
+    private final FakeStoreService svc;
 
     public ProductController(FakeStoreService fakeStoreService) {
        this.svc = fakeStoreService;
     }
+
+    @PostMapping("/product")
+    public ProductResponseDTO createProduct(@RequestBody CreateProductRequestDTO dto) {
+
+       Product product =  svc.creteProduct(dto.getTitle(),
+                dto.getDescription(),
+                dto.getCategory(),
+                dto.getPrice(),
+                dto.getImage());
+
+        return ProductMapper.getProductResponseDTO(product);
+
+    }
     @GetMapping("/product/{id}")
-    public void getProductById(@PathVariable("id") Long id) {
+    public ProductResponseDTO getProductById(@PathVariable("id") Long id) {
         if(id == null ){
-            //Throw an exception
+            System.out.println("ID does not exist");
         }
 
         //call service layer
         Product prd = svc.getProductById(id);
+
+        //Map to DTO and return
+        return ProductMapper.getProductResponseDTO(prd);
     }
+
+    @GetMapping("/products")
+    public List<ProductResponseDTO> getProduct(){
+      List<Product> products = svc.getAllProducts();
+      List<ProductResponseDTO> productResponseDTOS = new ArrayList<>();
+      for(Product product : products){
+          ProductResponseDTO productResponseDTO = ProductMapper.getProductResponseDTO(product);
+          productResponseDTOS.add(productResponseDTO);
+      }
+
+      return productResponseDTOS;
+    }
+
+
 }

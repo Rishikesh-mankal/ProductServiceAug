@@ -1,14 +1,15 @@
-package com.rishi.productservice15aug.model;
+package com.rishi.productservice15aug.dto;
 
-
+import com.rishi.productservice15aug.model.Category;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Product {
+public class ProductResponseDTO {
 
-    private int id;
+
+    private long id;
     private String title;
     private String description;
     private double price;
