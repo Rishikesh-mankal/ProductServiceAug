@@ -23,6 +23,10 @@ public class FakeStoreService implements ProductService {
     public Product getProductById(Long id) {
 
         ResponseEntity<FakestoreDTO> response = restTemplate.getForEntity("https://fakestoreapi.com/products/" + id, FakestoreDTO.class);
+
+        if(response.getBody() == null){
+            return null;
+        }
         FakestoreDTO dto = response.getBody();
 
         assert dto != null;
