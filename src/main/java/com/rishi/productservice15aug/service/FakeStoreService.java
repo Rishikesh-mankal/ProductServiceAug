@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("fakeStoreService")
 public class FakeStoreService implements ProductService {
 
     RestTemplate restTemplate;
@@ -20,7 +20,7 @@ public class FakeStoreService implements ProductService {
     }
 
     @Override
-    public Product getProductById(Long id) {
+    public Product getProductById(Integer id) {
 
         ResponseEntity<FakestoreDTO> response = restTemplate.getForEntity("https://fakestoreapi.com/products/" + id, FakestoreDTO.class);
 

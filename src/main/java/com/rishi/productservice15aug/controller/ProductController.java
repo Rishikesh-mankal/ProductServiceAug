@@ -9,6 +9,8 @@ import com.rishi.productservice15aug.exceptions.InvalidProductIdException;
 import com.rishi.productservice15aug.exceptions.ProductNotFoundException;
 import com.rishi.productservice15aug.model.Product;
 import com.rishi.productservice15aug.service.FakeStoreService;
+import com.rishi.productservice15aug.service.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +21,10 @@ import java.util.List;
 
 @RestController
 public class ProductController {
-    private final FakeStoreService svc;
+    private final ProductService svc;
 
-    public ProductController(FakeStoreService fakeStoreService) {
-       this.svc = fakeStoreService;
+    public ProductController(@Qualifier("selfProductService") ProductService svc) {
+       this.svc = svc;
     }
 
     @PostMapping("/product")
@@ -39,7 +41,7 @@ public class ProductController {
 
     }
     @GetMapping("/product/{id}")
-    public ProductResponseDTO getProductById(@PathVariable("id") Long id) throws InvalidProductIdException, ProductNotFoundException {
+    public ProductResponseDTO getProductById(@PathVariable("id") Integer id) throws InvalidProductIdException, ProductNotFoundException {
         if(id == null ){
             System.out.println("ID does not exist");
             throw new InvalidProductIdException("Id does not exists");
