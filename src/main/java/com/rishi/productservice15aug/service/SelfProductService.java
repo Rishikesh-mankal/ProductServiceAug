@@ -64,4 +64,10 @@ public class SelfProductService implements ProductService{
         List<Product> products = productRepo.findAll();
         return products;
     }
+
+    public Product getProductByIdAndTitle(Integer id, String title) {
+        Product product = productRepo.getProductFromTitle(id, title);
+
+        return product;
+    }
 }

@@ -65,4 +65,9 @@ public class FakeStoreService implements ProductService {
         return products;
 
     }
+
+    @Override
+    public Product getProductByIdAndTitle(Integer id, String title) {
+        return null;
+    }
 }

@@ -70,6 +70,14 @@ public class ProductController {
       return productResponseDTOS;
     }
 
+    @GetMapping("/product/{id}/{title}")
+    public ProductResponseDTO getProductByIdAndTitle(@PathVariable("id") Integer id, @PathVariable("title") String title) {
+        Product product = svc.getProductByIdAndTitle(id,title);
+
+        ProductResponseDTO productResponseDTO = ProductMapper.getProductResponseDTO(product);
+
+        return productResponseDTO;
+    }
 
 
 
